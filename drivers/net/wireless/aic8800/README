@@ -1,0 +1,27 @@
+AIC8800 SDIO integration for RK3588S TBoard
+=========================================
+
+Source: https://github.com/radxa-pkg/aic8800
+Local source: /home/lyh/lyh_disk/coolpi/aic8800
+Source revision: 75fd5545a3e7a8ec2c2b022f0088cc352ad2b623
+Imported from: src/SDIO/driver_fw/driver/aic8800/{aic8800_bsp,aic8800_fdrv}
+
+The vendor C sources retain their original copyright and license headers.
+The upstream packaging copyright file is preserved as UPSTREAM-COPYRIGHT.
+
+Integration changes:
+- Use the kernel Kconfig/Kbuild and caller-provided architecture/toolchain.
+- Build both modules with CONFIG_AIC_WLAN_SUPPORT=m (module only).
+- Use MMC/mmc-pwrseq-simple for power and in-band SDIO interrupts. Vendor
+  Android/Rockchip GPIO control and Bluetooth LPM helpers are not enabled.
+- Read firmware from /lib/firmware/aic8800 using the vendor file loader.
+  The BSP aic_fw_path module parameter can override the directory.
+- Firmware is kept under external/rkwifibt/firmware/aicsemi in the SDK.
+  post-wifibt.sh installs the modules, firmware and initialization scripts.
+
+Load aic8800_bsp.ko before aic8800_fdrv.ko, after the root filesystem mounts.
+Supported driver families are AIC8800 (8801), AIC8800DC/DW and AIC8800D80.
+Actual chip/revision detection and firmware availability must be checked on
+hardware; the supplied firmware does not cover every early silicon revision.
+This integration configures Wi-Fi only. UART Bluetooth attach, MAC address
+provisioning, suspend/wake and RF performance require board validation.

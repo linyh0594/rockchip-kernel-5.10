@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-2.0
+config AIC_WLAN_SUPPORT
+	tristate "Aicsemi AIC8800 SDIO Wi-Fi"
+	depends on MMC && CFG80211
+	depends on m
+	help
+	  Build aic8800_bsp and aic8800_fdrv for AIC8800, AIC8800DC/DW
+	  and AIC8800D80 SDIO modules. Firmware must be installed in
+	  /lib/firmware/aic8800 before loading the modules.
